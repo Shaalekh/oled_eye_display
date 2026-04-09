@@ -4,7 +4,11 @@
 #include <SPI.h>
 #include <U8g2lib.h>
 
-
+#define PIN_CLK   4   // SPI Clock (SCK)
+#define PIN_MOSI  6   // SPI Data (MOSI)
+#define PIN_CS    7   // SPI Chip Select
+#define PIN_DC    5   // SPI Data/Command
+#define PIN_RESET 3   // OLED Reset
 
 
 int COLOR_WHITE = 1;
@@ -17,7 +21,7 @@ static const int max_animation_index = 8;
 int current_animation_index = 0;
 
 static const int  SCREEN_WIDTH = 128; 
-static const int  SCREEN_HEIGHT = 128; 
+static const int  SCREEN_HEIGHT = 64; 
 
 //reference state
 int ref_left_eye = 32;
@@ -38,14 +42,13 @@ int corner_radius = ref_corner_radius;
 
 
 
-//U8G2_SH1107_PIMORONI_128X128_F_SW_I2C u8g2(U8G2_R0,22,21);
-U8G2_SH1107_PIMORONI_128X128_F_HW_I2C u8g2(U8G2_R0);
+//U8G2_SSD1306_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, PIN_CS, PIN_DC, PIN_RESET);
+U8G2_SSD1306_128X64_NONAME_F_4W_SW_SPI u8g2(U8G2_R0, PIN_CLK, PIN_MOSI, PIN_CS, PIN_DC, PIN_RESET);
 
 
 
 void setup() {
   //initialize the u8g2 lib.
-  u8g2.setI2CAddress(0x78);
   u8g2.setDisplayRotation(U8G2_R0);
   u8g2.begin();
 
